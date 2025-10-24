@@ -6,6 +6,7 @@
 *.class
 *.log
 *.iml
+.metadate/
 .idea/
 .settings/
 .project
