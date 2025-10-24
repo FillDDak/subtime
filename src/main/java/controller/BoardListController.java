@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class BoardListController
  */
-@WebServlet("/BoardListController")
+@WebServlet("/BoardListController.do")
 public class BoardListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
