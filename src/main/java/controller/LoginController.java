@@ -1,41 +1,42 @@
 package controller;
 
-import java.io.IOException;
+import model.UserDAO;
+import model.UserDTO;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
+import java.io.IOException;
 
-/**
- * Servlet implementation class LoginController
- */
-@WebServlet("/LoginController")
+@WebServlet("/login")
 public class LoginController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginController() {
-        super();
-        // TODO Auto-generated constructor stub
+    private final UserDAO userDAO = new UserDAO();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        String id = req.getParameter("userId");
+        String pw = req.getParameter("userPw");
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+        if (userDAO.checkLogin(id, pw)) {
+            HttpSession session = req.getSession();
+            session.setAttribute("loginId", id);
 
+            // 이름 표시용(옵션)
+            UserDTO u = userDAO.findById(id);
+            if (u != null) session.setAttribute("loginName", u.getUserName());
+
+            String redirect = req.getParameter("redirect");
+            if (redirect == null || redirect.isBlank()) redirect = req.getContextPath() + "/index";
+            resp.sendRedirect(redirect);
+        } else {
+            req.setAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        }
+    }
 }
