@@ -33,7 +33,7 @@ body {
 .table th {
     background-color: #e9f5ff;
     color: #333;
-    text-align: right;
+    text-align: center;
     width: 100px;
 }
 input[type="text"], input[type="email"], input[type="password"], textarea {
@@ -77,7 +77,7 @@ h2 {
 	<div id="container">
 		<b>게시글 입력하기</b>
 		<p />
-		<form action="BoardWriteProcCon.do" method="get">
+		<form action="BoardWriteProcController.do" method="get">
 			<center>
 				<table class="table table-striped table-bordered table-hover">
 					<tbody>
