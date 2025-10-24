@@ -1,29 +1,57 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%
+    String loginId = (String)session.getAttribute("loginId");
+    String context = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>JSP 쇼핑몰</title>
-<style>
-   nav { background: #eee; padding: 10px;}
-   nav a {margin-right: 15px; text-decoration: none; font-weight: bold;}
-</style>
+    <meta charset="UTF-8">
+    <title>SubTime</title>
+    <link rel="stylesheet" href="<%=context%>/assets/css/style.css">
+    <style>
+        header {
+            background-color: #004C99;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        nav {
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #004C99;
+            text-decoration: underline;
+        }
+        .user-info {
+            float: right;
+            margin-right: 40px;
+            color: #444;
+        }
+    </style>
 </head>
 <body>
+<header>
+    <h1>🚇 SubTime 지하철 실시간 정보 시스템</h1>
+</header>
 <nav>
-   <a href="index.jsp">홈</a>
-   <a href="product.jsp?view=all">상품목록</a>
-   <a href="mypage.jsp?check=1">마이페이지</a>
-   <c:choose>
-      <c:when test="${empty sessionScope.userId}">
-         <a href="login.jsp?redirect=product">로그인</a>
-      </c:when>
-   <c:otherwise>
-      <a href="logout.jsp">로그아웃 (${sessionScope.userId })</a>
-   </c:otherwise>
-   </c:choose>
+    <a href="<%=context%>/index">홈</a>
+    <a href="<%=context%>/arrival">실시간 도착정보</a>
+    <a href="<%=context%>/board/list">게시판</a>
+
+    <% if (loginId == null) { %>
+        <a href="<%=context%>/login">로그인</a>
+    <% } else { %>
+        <span class="user-info"><%=loginId%> 님</span>
+        <a href="<%=context%>/logout">로그아웃</a>
+    <% } %>
 </nav>
-</body>
-</html>
+<hr/>
