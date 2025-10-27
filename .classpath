@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jstl-1.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lombok.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/json-20180813.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

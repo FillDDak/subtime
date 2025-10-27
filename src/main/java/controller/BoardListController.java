@@ -106,7 +106,7 @@ public class BoardListController extends HttpServlet {
 		
 		// 5. View (JSP)로 포워딩
 		// 파일명을 "boardList.jsp"로 정확하게 수정했습니다.
-		RequestDispatcher dis = request.getRequestDispatcher("/boardList.jsp");
+		RequestDispatcher dis = request.getRequestDispatcher("boardList.jsp");
 		dis.forward(request, response);
 	}
 }

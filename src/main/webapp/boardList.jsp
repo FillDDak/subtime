@@ -131,7 +131,7 @@ body {
          <h2>🚇 실시간 지하철 게시판</h2>
          <b>전체 게시글: <span>${count }</span>개</b>
          <div id="write">
-            <a href="BoardWriteFormController.jsp">글쓰기</a>
+            <a href="BoardWriteFormController.do">글쓰기</a>
          </div>
       </div>
       
@@ -175,7 +175,7 @@ body {
                      </c:if> 
                      
                      <!-- 상세 보기 링크: BoardDetail.do로 변경 -->
-                     <a href="BoardDetailController.do?num=${bean.num }" style="color:#333;">
+                     <a href="BoardDetail.do?num=${bean.num }" style="color:#333;">
                         ${bean.subject } 
                      </a>
                   </td>

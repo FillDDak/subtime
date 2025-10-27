@@ -94,18 +94,6 @@ h2 {
 							</td>
 						</tr>
 						<tr height="50">
-							<th width="150" align="center">이메일</th>
-							<td width="400" align="left">
-								<input type="email" name="email" size="60" style="background: transparent;"/>
-							</td>
-						</tr>
-						<tr height="50">
-							<th width="150" align="center">비밀번호</th>
-							<td width="400" align="left">
-								<input type="password" name="password" size="60" style="background: transparent;"/>
-							</td>
-						</tr>
-						<tr height="50">
 							<th width="150" align="center">글내용</th>
 							<td width="400" align="left">
 								<textarea rows="10" cols="50" name="content"></textarea>
