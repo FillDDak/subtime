@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.PostDAO;
 import model.PostDTO;
 
-@WebServlet("/BoardWriteProcController")
+@WebServlet("/BoardWriteProcController.do")
 public class BoardWriteProcController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
