@@ -29,11 +29,9 @@ public class BoardWriteProcController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		PostDTO bean = new PostDTO();
-		bean.setWriter(request.getParameter("writer"));
-		bean.setSubject(request.getParameter("subject"));
-		bean.setEmail(request.getParameter("email"));
-		bean.setPassword(request.getParameter("password"));
-		bean.setContent(request.getParameter("content"));
+		bean.setWRITER_ID(request.getParameter("writer"));
+		bean.setTITLE(request.getParameter("subject"));
+		bean.setCONTENT(request.getParameter("content"));
 		
 		PostDAO bdao = new PostDAO();
 		bdao.insertBoard(bean);

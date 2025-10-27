@@ -33,9 +33,7 @@ public class PostDAO {
 		
 		getCon();
 		
-		int ref=0;
-		int re_step = 1;
-		int re_level = 1;
+		int hit;
 		
 		try {
 			
@@ -44,20 +42,16 @@ public class PostDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				ref = rs.getInt(1)+1;
+				hit = rs.getInt(1)+1;
 			}
 			
 			//실제 게시글 테이블에 저장
-			String sql = "insert into board values (board_seq.nextval,?,?,?,?,sysdate,?,?,?,0,?)";
+			String sql = "insert into posts values (POST_ID,?,?,?,?,sysdate,sysdate)";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, bean.getWriter());
-			pstmt.setString(2, bean.getEmail());
-			pstmt.setString(3, bean.getSubject());
-			pstmt.setString(4, bean.getPassword());
-			pstmt.setInt(5, ref);
-			pstmt.setInt(6, re_step);
-			pstmt.setInt(7, re_level);
-			pstmt.setString(8, bean.getContent());
+			pstmt.setString(1, bean.getTITLE());
+			pstmt.setString(2, bean.getCONTENT());
+			pstmt.setString(3, bean.getWRITER_ID());
+			pstmt.setInt(4, bean.getHIT());
 			pstmt.executeUpdate();
 			con.close();
 			
@@ -74,7 +68,7 @@ public class PostDAO {
 		
 		try {
 			
-			String sql = "select count(*) from board";
+			String sql = "select count(*) from posts";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -97,7 +91,7 @@ public class PostDAO {
 		
 		try {
 			//댓글까지 포함하여 최근글 10개 조회
-			String sql = "select * from (select A.*, Rownum Rnum from (select * from board order by ref desc, re_step asc) A) where Rnum>=? and Rnum<=?";
+			String sql = "select * from (select A.*, Rownum Rnum from (select * from posts order by hit desc) A) where Rnum>=? and Rnum<=?";
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, startRow);
@@ -106,17 +100,13 @@ public class PostDAO {
 			
 			while(rs.next()) {
 				PostDTO bean = new PostDTO();
-				bean.setNum(rs.getInt(1));
-				bean.setWriter(rs.getString(2));
-				bean.setEmail(rs.getString(3));
-				bean.setSubject(rs.getString(4));
-				bean.setPassword(rs.getString(5));
-				bean.setReg_date(rs.getString(6).toString());
-				bean.setRef(rs.getInt(7));
-				bean.setRe_step(rs.getInt(8));;
-				bean.setRe_level(rs.getInt(9));
-				bean.setReadcount(rs.getInt(10));
-				bean.setContent(rs.getString(11));
+				bean.setPOST_ID(rs.getInt(1));
+				bean.setTITLE(rs.getString(2));
+				bean.setCONTENT(rs.getString(3));
+				bean.setWRITER_ID(rs.getString(4));
+				bean.setHIT(rs.getInt(5));
+				bean.setREG_DT(rs.getString(6).toString());
+				bean.setMOD_DT(rs.getString(7).toString());
 				
 				v.add(bean);
 			}
@@ -136,13 +126,13 @@ public class PostDAO {
 		
 		try {
 			//조회수 증가
-			String countsql = "update board set readcount = readcount+1 where num= ?";
+			String countsql = "update posts set readcount = readcount+1 where num= ?";
 			pstmt = con.prepareStatement(countsql);
 			pstmt.setInt(1, num);
 			pstmt.executeUpdate();
 			
 			//하나의 게시글
-			String sql = "select * from board where num = ?";
+			String sql = "select * from posts where num = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
@@ -150,17 +140,13 @@ public class PostDAO {
 			if(rs.next()) {
 				
 				bean = new PostDTO();
-				bean.setNum(rs.getInt(1));
-				bean.setWriter(rs.getString(2));
-				bean.setEmail(rs.getString(3));
-				bean.setSubject(rs.getString(4));
-				bean.setPassword(rs.getString(5));
-				bean.setReg_date(rs.getString(6).toString());
-				bean.setRef(rs.getInt(7));
-				bean.setRe_step(rs.getInt(8));;
-				bean.setRe_level(rs.getInt(9));
-				bean.setReadcount(rs.getInt(10));
-				bean.setContent(rs.getString(11));
+				bean.setPOST_ID(rs.getInt(1));
+				bean.setTITLE(rs.getString(2));
+				bean.setCONTENT(rs.getString(3));
+				bean.setWRITER_ID(rs.getString(4));
+				bean.setHIT(rs.getInt(5));
+				bean.setREG_DT(rs.getString(6).toString());
+				bean.setMOD_DT(rs.getString(7).toString());
 			}
 			con.close();
 		} catch (Exception e) {
@@ -175,7 +161,7 @@ public class PostDAO {
 		PostDTO bean = null;
 		
 		try {
-			String sql = "select * from board where num = ?";
+			String sql = "select * from posts where num = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
@@ -183,17 +169,13 @@ public class PostDAO {
 			if(rs.next()) {
 				
 				bean = new PostDTO();
-				bean.setNum(rs.getInt(1));
-				bean.setWriter(rs.getString(2));
-				bean.setEmail(rs.getString(3));
-				bean.setSubject(rs.getString(4));
-				bean.setPassword(rs.getString(5));
-				bean.setReg_date(rs.getString(6).toString());
-				bean.setRef(rs.getInt(7));
-				bean.setRe_step(rs.getInt(8));;
-				bean.setRe_level(rs.getInt(9));
-				bean.setReadcount(rs.getInt(10));
-				bean.setContent(rs.getString(11));
+				bean.setPOST_ID(rs.getInt(1));
+				bean.setTITLE(rs.getString(2));
+				bean.setCONTENT(rs.getString(3));
+				bean.setWRITER_ID(rs.getString(4));
+				bean.setHIT(rs.getInt(5));
+				bean.setREG_DT(rs.getString(6).toString());
+				bean.setMOD_DT(rs.getString(7).toString());
 			}
 			con.close();
 			
@@ -209,7 +191,7 @@ public class PostDAO {
 		
 		try {
 			
-			String sql = "update board set subject=?, content=? where num = ?";
+			String sql = "update posts set subject=?, content=? where num = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, subject);
 			pstmt.setString(2, content);
@@ -232,7 +214,7 @@ public class PostDAO {
 		
 		try {
 			
-			String sql = "delete from board where num = ?";
+			String sql = "delete from posts where num = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			pstmt.executeUpdate();
@@ -249,28 +231,22 @@ public class PostDAO {
 	public void reInsertBoard(PostDTO bean) {
 		
 		getCon();
-		int ref = bean.getRef();
-		int re_step = bean.getRe_step();
-		int re_level = bean.getRe_level();
-		
+		int hit = 0;
 		try {
 			
-			String levelsql = "update board set re_level+1 where ref = ? and re_level>?";
+			String levelsql = "update posts set re_level+1 where ref = ? and re_level>?";
 			pstmt = con.prepareStatement(levelsql);
-			pstmt.setInt(1, ref);
-			pstmt.setInt(2, re_level);
+			pstmt.setInt(1, hit);
 			pstmt.executeUpdate();
 			
-			String sql = "insert into board values(board_seq.nextval,?,?,?,?,sysdate,?,?,?,0,?)";
+			String sql = "insert into posts values(board_seq.nextval,?,?,?,?,sysdate,?,?,?,0,?)";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, bean.getWriter());
-			pstmt.setString(2, bean.getEmail());
-			pstmt.setString(3, bean.getSubject());
-			pstmt.setString(4, bean.getPassword());
-			pstmt.setInt(5, ref);
-			pstmt.setInt(6, re_step);
-			pstmt.setInt(7, re_level);
-			pstmt.setString(8, bean.getContent());
+			pstmt.setString(1, bean.getTITLE());
+			pstmt.setString(2, bean.getCONTENT());
+			pstmt.setString(3, bean.getWRITER_ID());
+			pstmt.setInt(4, bean.getHIT());
+			pstmt.executeUpdate();
+			con.close();
 			
 			pstmt.executeUpdate();
 			con.close();
